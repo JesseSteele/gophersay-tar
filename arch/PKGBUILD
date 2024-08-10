@@ -1,0 +1,20 @@
+# Maintainer: Jesse Steele <codes@jessesteele.com>
+pkgname=gophersay
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Gopher talkback written in Go for Linux"
+url="https://github.com/JesseSteele/gophersay-tar"
+arch=('x86_64')  # Go is newer and may not work on older systems, so not 'any'
+license=('GPL')
+depends=('go')  # Depends on the 'go' package to build the binary
+source=("$pkgname-$pkgver.tar.xz")
+sha256sums=('713302921d243411a9cc2061afe24ebb34f0c833293f166dad9f8b03b6fbc969')
+
+build() {
+  cd "$srcdir/$pkgname-$pkgver"
+  go build -o "$pkgname" "$pkgname.go"
+}
+
+package() {
+  install -Dm755 "$srcdir/$pkgname-$pkgver/$pkgname" "$pkgdir/usr/bin/$pkgname"
+}
