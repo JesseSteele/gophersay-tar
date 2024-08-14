@@ -8,7 +8,7 @@ arch=('x86_64')  # Go is newer and may not work on older systems, so not 'any'
 license=('GPL')
 depends=('go')  # Depends on the 'go' package to build the binary
 source=("$pkgname-$pkgver.tar.xz")
-sha256sums=('713302921d243411a9cc2061afe24ebb34f0c833293f166dad9f8b03b6fbc969')
+sha256sums=('acb473e96cf351ad5f571161bd560bbfaee46b0c9c5d23508e7acc6d76bd14c3')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver"
