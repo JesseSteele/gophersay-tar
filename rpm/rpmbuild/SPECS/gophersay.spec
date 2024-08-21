@@ -1,10 +1,10 @@
-Name:           gophersay
+Name:           gophersay-tar
 Version:        1.0.0
 Release:        1%{?dist}
 Summary:        The talking gopher
 
 License:        GPL
-URL:            https://github.com/JesseSteele/gophersay
+URL:            https://github.com/JesseSteele/gophersay-tar
 Source0:        gophersay.tar.xz
 
 BuildArch:      noarch

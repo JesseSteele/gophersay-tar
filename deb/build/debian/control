@@ -1,13 +1,13 @@
-Source: gophersay
+Source: gophersay-tar
 Section: games
 Priority: optional
 Maintainer: Jesse Steele <codes@jessesteele.com>
-Homepage: https://github.com/JesseSteele/gophersay
+Homepage: https://github.com/JesseSteele/gophersay-tar
 Build-Depends: debhelper (>= 10), golang-go
 Standards-Version: 3.9.6
 
-Package: gophersay
-Version: 1.0.0
+Package: gophersay-tar
+#Version: 1.0.0 # No! Inherited from `debian/changelog`
 Architecture: all
 Depends: bash (>= 4.0)
 Description: Gopher talkback written in Go for Linux

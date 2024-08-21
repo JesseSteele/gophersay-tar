@@ -1,4 +1,4 @@
-# gophersay
+# gophersay-tar
 ## The talking gopher
 Gopher talkback written in Go for Linux
 
@@ -132,7 +132,7 @@ arch/
 
 ```
 # Maintainer: Jesse Steele <codes@jessesteele.com>
-pkgname=gophersay
+pkgname=gophersay-tar
 pkgver=1.0.0
 pkgrel=1
 pkgdesc="Gopher talkback written in Go for Linux"
@@ -140,11 +140,15 @@ url="https://github.com/JesseSteele/gophersay-tar"
 arch=('x86_64')  # Go is newer and may not work on older systems, so not 'any'
 license=('GPL')
 depends=('go')  # Depends on the 'go' package to build the binary
+replaces=('gophersay' 'gophersay-git')
 source=("$pkgname-$pkgver.tar.xz")
 sha256sums=('acb473e96cf351ad5f571161bd560bbfaee46b0c9c5d23508e7acc6d76bd14c3')
 
 build() {
+  # Get into the root, where our to-be-compiled files are
   cd "$srcdir/$pkgname-$pkgver"
+
+  # Compile the Go binary
   go build -o "$pkgname" "$pkgname.go"
 }
 
@@ -212,16 +216,16 @@ deb/
 | **`deb/build/debian/control`** :
 
 ```
-Source: gophersay
+Source: gophersay-tar
 Section: games
 Priority: optional
 Maintainer: Jesse Steele <codes@jessesteele.com>
-Homepage: https://github.com/JesseSteele/gophersay
+Homepage: https://github.com/JesseSteele/gophersay-tar
 Build-Depends: debhelper (>= 10), golang-go
 Standards-Version: 3.9.6
 
-Package: gophersay
-Version: 1.0.0
+Package: gophersay-tar
+#Version: 1.0.0 # No! Inherited from `debian/changelog`
 Architecture: all
 Depends: bash (>= 4.0)
 Description: Gopher talkback written in Go for Linux
@@ -240,7 +244,7 @@ Description: Gopher talkback written in Go for Linux
 | **`deb/build/debian/changelog`** : (optional, for listing changes)
 
 ```
-gophersay (1.0-1) stable; urgency=low
+gophersay-tar (1.0.0-1) stable; urgency=low
 
   * First release
 
@@ -253,8 +257,8 @@ gophersay (1.0-1) stable; urgency=low
 
 ```
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: gophersay
-Source: https://github.com/JesseSteele/gophersay
+Upstream-Name: gophersay-tar
+Source: https://github.com/JesseSteele/gophersay-tar
 
 Files: *
 Copyright: 2024, Jesse Steele <codes@jessesteele.com>
@@ -382,13 +386,13 @@ rpm/
 | **`rpm/rpmbuild/SPECS/gophersay.spec`** :
 
 ```
-Name:           gophersay
+Name:           gophersay-tar
 Version:        1.0.0
 Release:        1%{?dist}
 Summary:        The talking gopher
 
 License:        GPL
-URL:            https://github.com/JesseSteele/gophersay
+URL:            https://github.com/JesseSteele/gophersay-tar
 Source0:        gophersay.tar.xz
 
 BuildArch:      noarch

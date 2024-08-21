@@ -1,5 +1,5 @@
 # Maintainer: Jesse Steele <codes@jessesteele.com>
-pkgname=gophersay
+pkgname=gophersay-tar
 pkgver=1.0.0
 pkgrel=1
 pkgdesc="Gopher talkback written in Go for Linux"
@@ -7,11 +7,15 @@ url="https://github.com/JesseSteele/gophersay-tar"
 arch=('x86_64')  # Go is newer and may not work on older systems, so not 'any'
 license=('GPL')
 depends=('go')  # Depends on the 'go' package to build the binary
+replaces=('gophersay' 'gophersay-git')
 source=("$pkgname-$pkgver.tar.xz")
 sha256sums=('acb473e96cf351ad5f571161bd560bbfaee46b0c9c5d23508e7acc6d76bd14c3')
 
 build() {
+  # Get into the root, where our to-be-compiled files are
   cd "$srcdir/$pkgname-$pkgver"
+
+  # Compile the Go binary
   go build -o "$pkgname" "$pkgname.go"
 }
 
