@@ -44,7 +44,7 @@ sudo dnf install rpm-build rpmdevtools go
 cp -rf gophersay-tar/rpm/rpmbuild ~/
 rpmbuild -ba ~/rpmbuild/SPECS/gophersay-tar.spec
 ls ~/rpmbuild/RPMS/noarch/
-sudo rpm -i ~/rpmbuild/RPMS/noarch/gophersay-1.0.0-1.noarch.rpm  # Change filename if needed
+sudo rpm -i ~/rpmbuild/RPMS/noarch/gophersay-tar-1.0.0-1.noarch.rpm  # Change filename if needed
 rm -rf ~/rpmbuild
 ```
 
@@ -58,7 +58,7 @@ sudo zypper install rpm-build rpmdevtools go
 cp -r rpmbuild ~/
 rpmbuild -ba ~/rpmbuild/SPECS/gophersay-tar.spec
 ls ~/rpmbuild/RPMS/noarch/
-sudo rpm -i ~/rpmbuild/RPMS/noarch/gophersay-1.0.0-1.noarch.rpm  # Change filename if needed
+sudo rpm -i ~/rpmbuild/RPMS/noarch/gophersay-tar-1.0.0-1.noarch.rpm  # Change filename if needed
 rm -rf ~/rpmbuild
 ```
 
@@ -66,53 +66,53 @@ rm -rf ~/rpmbuild
 Instructions explain each in detail to create these packages from scratch...
 
 ### Preparation
-These installers use a `.tar.xz` tarball for the installation
+- We use the namespace `gophersay-tar` for all package, but still use the command as `gophersay`
+- These installers use a `.tar.xz` tarball for the installation
 
 1. Create the tarball
-  - Create the `gophersay-1.0.0/` directory
-  - Place [gophersay.go](https://github.com/JesseSteele/gophersay-tar/blob/main/gophersay.go) & [go.mod](https://github.com/JesseSteele/gophersay-tar/blob/main/go.mod) inside the `gophersay-1.0.0/` directory
-  - Roll up the `gophersay-1.0.0.tar.xz` tarball from `gophersay-1.0.0/`
-    - :$ `tar Jcf gophersay-1.0.0.tar.xz gophersay-1.0.0`
+  - Create the `gophersay-tar-1.0.0/` directory
+  - Place [gophersay.go](https://github.com/JesseSteele/gophersay-tar/blob/main/gophersay.go) & [go.mod](https://github.com/JesseSteele/gophersay-tar/blob/main/go.mod) inside the `gophersay-tar-1.0.0/` directory
+  - Roll up the `gophersay-tar-1.0.0.tar.xz` tarball from `gophersay-tar-1.0.0/`
+    - :$ `tar Jcf gophersay-tar-1.0.0.tar.xz gophersay-tar-1.0.0`
 
-| **Create `.xz` tarball** :$ (`gophersay-1.0.0.tar.xz`)
+| **Create `.xz` tarball** :$ (`gophersay-tar-1.0.0.tar.xz`)
 
 ```console
 git clone https://github.com/JesseSteele/gophersay-tar
-mkdir -p gophersay-1.0.0
-cp gophersay-tar/gophersay.go gophersay-1.0.0/
-cp gophersay-tar/go.mod gophersay-1.0.0/
-cd arch
-tar Jcf gophersay-1.0.0.tar.xz gophersay-1.0.0
+mkdir -p gophersay-tar-1.0.0
+cp gophersay-tar/gophersay.go gophersay-tar-1.0.0/
+cp gophersay-tar/go.mod gophersay-tar-1.0.0/
+tar Jcf gophersay-tar-1.0.0.tar.xz gophersay-tar-1.0.0
 ```
 
 2. Get the `sha256sum` hash
-  - We presume in these instructions that the hash is `acb473e96cf351ad5f571161bd560bbfaee46b0c9c5d23508e7acc6d76bd14c3`, but yours may be different
+  - We presume in these instructions that the hash is `24aa00d38b6e68c1b8988c2fab2ae8132ea13b39298daf4e9f9d490d1b5e5fbd`, but yours may be different
 
-| **Get the `sha256sum` hash** :$ (`gophersay-1.0.0.tar.xz`)
+| **Get the `sha256sum` hash** :$ (`gophersay-tar-1.0.0.tar.xz`)
 
 ```console
-sha256sum gophersay-1.0.0.tar.xz
+sha256sum gophersay-tar-1.0.0.tar.xz
 ```
 
 - Alternatively, if you want to be 1992 and use larger tarballs, you can use `.gz`
 
-| **Create `.gz` tarball** :$ (1992, larger `gophersay-1.0.0.tar.gz`)
+| **Create `.gz` tarball** :$ (1992, larger `gophersay-tar-1.0.0.tar.gz`)
 
 ```console
-tar zcf gophersay-1.0.0.tar.gz gophersay-1.0.0
+tar zcf gophersay-tar-1.0.0.tar.gz gophersay-tar-1.0.0
 ```
 
-| **Get the `sha256sum` hash** :$ (1992, larger `gophersay-1.0.0.tar.gz`)
+| **Get the `sha256sum` hash** :$ (1992, larger `gophersay-tar-1.0.0.tar.gz`)
 
 ```console
-sha256sum gophersay-1.0.0.tar.gz
+sha256sum gophersay-tar-1.0.0.tar.gz
 ```
 
 3. Use this `.tar.xz` tarball and hash in the following instructions
 - These files have already been placed in the root of the repository for your convenience
-- The `sha256sum` hash is in the file `gophersay-1.0.0.tar.xz.sha256sum`
-- You can check the hash from the rood of the repository with :$ `sha256sum -c gophersay-1.0.0.tar.xz.sha256sum`
-  - Or for 1992, larger `.gz` :$ `sha256sum -c gophersay-1.0.0.tar.gz.sha256sum`
+- The `sha256sum` hash is in the file `gophersay-tar-1.0.0.tar.xz.sha256sum`
+- You can check the hash from the rood of the repository with :$ `sha256sum -c gophersay-tar-1.0.0.tar.xz.sha256sum`
+  - Or for 1992, larger `.gz` :$ `sha256sum -c gophersay-tar-1.0.0.tar.gz.sha256sum`
 
 ### I. Arch Linux Package (`gophersay-tar-1.0.0-1-x86_64.pkg.tar.zst`)
 *Arch package directory structure:*
@@ -121,7 +121,7 @@ sha256sum gophersay-1.0.0.tar.gz
 
 ```
 arch/
-├─ gophersay-1.0.0.tar.xz
+├─ gophersay-tar-1.0.0.tar.xz
 └─ PKGBUILD
 ```
 
@@ -142,7 +142,7 @@ license=('GPL')
 depends=('go')  # Depends on the 'go' package to build the binary
 replaces=('gophersay' 'gophersay-git')
 source=("$pkgname-$pkgver.tar.xz")
-sha256sums=('acb473e96cf351ad5f571161bd560bbfaee46b0c9c5d23508e7acc6d76bd14c3')
+sha256sums=('24aa00d38b6e68c1b8988c2fab2ae8132ea13b39298daf4e9f9d490d1b5e5fbd')
 
 build() {
   # Get into the root, where our to-be-compiled files are
@@ -157,7 +157,7 @@ package() {
 }
 ```
 
-- Place tarball `gophersay-1.0.0.tar.xz` in the same directory as `PKGBUILD`
+- Place tarball `gophersay-tar-1.0.0.tar.xz` in the same directory as `PKGBUILD`
 - Build package:
   - Navigate to directory `arch/`
   - Run this, then the package will be built, then installed with `pacman`:
@@ -206,7 +206,7 @@ deb/
 │  ├─ changelog
 │  ├─ install
 │  └─ rules
-└─ gophersay-1.0.0.tar.xz
+└─ gophersay-tar-1.0.0.tar.xz
 ```
 
 #### Create Mainainer Package Director Structure
@@ -278,7 +278,7 @@ License: GPL-3+
 	dh $@
 
 override_dh_auto_build:
-  tar xf gophersay-1.0.0.tar.xz
+  tar xf gophersay-tar-1.0.0.tar.xz
 	go build -o gophersay gophersay.go
 
 override_dh_auto_install:
@@ -293,7 +293,7 @@ override_dh_auto_install:
 gophersay /usr/bin
 ```
 
-- Place tarball `gophersay-1.0.0.tar.xz` in directory `deb/build/`
+- Place tarball `gophersay-tar-1.0.0.tar.xz` in directory `deb/build/`
 
 #### Build the Package Directories
 - Install the `dpkg-dev`, `debhelper` & `golang-go` packages
@@ -369,7 +369,7 @@ sudo dpkg -i gophersay.deb  # Install the package
 sudo apt-get remove gophersay
 ```
 
-### III. RPM Package (`gophersay-1.0.0-1.noarch.rpm`)
+### III. RPM Package (`gophersay-tar-1.0.0-1.noarch.rpm`)
 *RPM package directory structure:*
 
 | **`rpm/`** :
@@ -380,7 +380,7 @@ rpm/
    ├─ SPECS/
    │  └─ gophersay-tar.spec
    └─ SOURCES/
-      └─ gophersay-1.0.0.tar.xz
+      └─ gophersay-tar-1.0.0.tar.xz
 ```
 
 - Create directories: `rpm/rpmbuild/SPECS`
@@ -396,7 +396,7 @@ Summary:        The talking gopher
 
 License:        GPL
 URL:            https://github.com/JesseSteele/gophersay-tar
-Source0:        gophersay-1.0.0.tar.xz
+Source0:        gophersay-tar-1.0.0.tar.xz
 
 BuildArch:      noarch
 BuildRequires:  go
@@ -423,6 +423,8 @@ install -D -m 0755 gophersay %{buildroot}/usr/bin/gophersay
 - Something started, probably with v1.0.0-1
 ```
 
+- Create directory: `rpm/rpmbuild/SOURCES/`
+- Place files `gophersay-tar-1.0.0.tar.xz` in directory `rpm/rpmbuild/SOURCES/`
 - Install the `rpm-build`, `rpmdevtools` & `go` packages
 
 | **RedHat/CentOS** :$
@@ -449,12 +451,12 @@ sudo zypper install rpm-build rpmdevtools go
 cp -r rpmbuild ~/
 rpmbuild -ba ~/rpmbuild/SPECS/gophersay-tar.spec                     # Create the .rpm package
 ls ~/rpmbuild/RPMS/noarch/                                        # Check the .rpm filename
-sudo rpm -i ~/rpmbuild/RPMS/noarch/gophersay-1.0.0-1.noarch.rpm  # Install the package (filename may be different)
+sudo rpm -i ~/rpmbuild/RPMS/noarch/gophersay-tar-1.0.0-1.noarch.rpm  # Install the package (filename may be different)
 ```
 
 - Special notes about RPM:
   - RPM requires the build be done from `~/rpmbuild/`
-  - The resulting `.rpm` fill will be at: `~/rpmbuild/RPMS/noarch/gophersay-1.0.0-1.noarch.rpm`
+  - The resulting `.rpm` fill will be at: `~/rpmbuild/RPMS/noarch/gophersay-tar-1.0.0-1.noarch.rpm`
     - This file might actually have a different name, but should be in the same directory (`~/rpmbuild/RPMS/noarch/`)
   - `noarch` means it works on any architecture
     - This part of the filename was set in the `.spec` file with `BuildArch: noarch`
