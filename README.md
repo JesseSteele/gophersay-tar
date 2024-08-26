@@ -143,6 +143,11 @@ arch=('x86_64')  # Go is newer and may not work on older systems, so not 'any'
 license=('GPL')
 depends=('go')  # Depends on the 'go' package to build the binary
 replaces=('gophersay' 'gophersay-git')
+
+# Custom variable "should" start with _
+# Not necessary, but may keep code clean (can remove this, then $_cmdname replace with 'gophersay' everywhere)
+_cmdname=gophersay
+
 source=("$pkgname-$pkgver.tar.xz")
 sha256sums=('24aa00d38b6e68c1b8988c2fab2ae8132ea13b39298daf4e9f9d490d1b5e5fbd')
 
@@ -151,11 +156,11 @@ build() {
   cd "$srcdir/$pkgname-$pkgver"
 
   # Compile the Go binary
-  go build -o "$pkgname" "$pkgname.go"
+  go build -o "$_cmdname" "$_cmdname.go"
 }
 
 package() {
-  install -Dm755 "$srcdir/$pkgname-$pkgver/$pkgname" "$pkgdir/usr/bin/$pkgname"
+  install -Dm755 "$srcdir/$pkgname-$pkgver/$_cmdname" "$pkgdir/usr/bin/$_cmdname"
 }
 ```
 
