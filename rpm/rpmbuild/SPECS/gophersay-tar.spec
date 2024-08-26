@@ -5,7 +5,7 @@ Summary:        The talking gopher
 
 License:        GPL
 URL:            https://github.com/JesseSteele/gophersay-tar
-Source0:        gophersay-1.0.0.tar.xz
+Source0:        gophersay-tar-1.0.0.tar.xz
 
 BuildArch:      noarch
 BuildRequires:  go

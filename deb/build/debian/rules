@@ -4,8 +4,8 @@
 	dh $@
 
 override_dh_auto_build:
-    tar xf gophersay-1.0.0.tar.xz
-	go build -o gophersay gophersay.go
+	tar xf gophersay-tar-1.0.0.tar.xz
+	go build -o gophersay gophersay-tar-1.0.0/gophersay.go
 
 override_dh_auto_install:
 	install -D -m 0755 gophersay $(DESTDIR)/usr/bin/gophersay

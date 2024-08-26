@@ -28,11 +28,13 @@ makepkg -si
 
 ```console
 git clone https://github.com/JesseSteele/gophersay-tar.git
+sudo apt-get update
+sudo apt-get install dpkg-dev debhelper golang-go
 cd gophersay-tar/deb/build
 sudo dpkg-buildpackage -us -uc
 cd debian
-dpkg-deb --build gophersay
-sudo dpkg -i gophersay.deb
+dpkg-deb --build gophersay-tar
+sudo dpkg -i gophersay-tar.deb
 ```
 
 | **RedHat/CentOS** :$ (& Fedora)
@@ -267,6 +269,7 @@ License: GPL-3+
 ```
 
 - In `debian/` create file: `rules`
+  - Note that only <kbd>tab</kbd> characters are allowed for indented lines, not sequential spaces
   - Make it executable with :$ `chmod +x debian/rules`
 
 | **`deb/build/debian/rules`** : (build compiler)
@@ -278,8 +281,8 @@ License: GPL-3+
 	dh $@
 
 override_dh_auto_build:
-  tar xf gophersay-tar-1.0.0.tar.xz
-	go build -o gophersay gophersay.go
+	tar xf gophersay-tar-1.0.0.tar.xz
+	go build -o gophersay gophersay-tar-1.0.0/gophersay.go
 
 override_dh_auto_install:
 	install -D -m 0755 gophersay $(DESTDIR)/usr/bin/gophersay
@@ -344,8 +347,8 @@ deb/build/debian/
 | **Build, *then* install Debian package** :$
 
 ```console
-dpkg-deb --build gophersay  # Create the .deb package
-sudo dpkg -i gophersay.deb  # Install the package
+dpkg-deb --build gophersay-tar  # Create the .deb package
+sudo dpkg -i gophersay-tar.deb  # Install the package
 ```
 
 - Special notes about Debian
