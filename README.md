@@ -40,9 +40,9 @@ sudo dpkg -i gophersay.deb
 ```console
 git clone https://github.com/JesseSteele/gophersay-tar.git
 sudo dnf update
-sudo dnf install rpm-build rpmdevtools
+sudo dnf install rpm-build rpmdevtools go
 cp -rf gophersay-tar/rpm/rpmbuild ~/
-rpmbuild -ba ~/rpmbuild/SPECS/gophersay.spec
+rpmbuild -ba ~/rpmbuild/SPECS/gophersay-tar.spec
 ls ~/rpmbuild/RPMS/noarch/
 sudo rpm -i ~/rpmbuild/RPMS/noarch/gophersay-1.0.0-1.noarch.rpm  # Change filename if needed
 rm -rf ~/rpmbuild
@@ -54,9 +54,9 @@ rm -rf ~/rpmbuild
 git clone https://github.com/JesseSteele/gophersay-tar.git
 cd gophersay-tar/rpm
 sudo zypper update
-sudo zypper install rpm-build rpmdevtools
+sudo zypper install rpm-build rpmdevtools go
 cp -r rpmbuild ~/
-rpmbuild -ba ~/rpmbuild/SPECS/gophersay.spec
+rpmbuild -ba ~/rpmbuild/SPECS/gophersay-tar.spec
 ls ~/rpmbuild/RPMS/noarch/
 sudo rpm -i ~/rpmbuild/RPMS/noarch/gophersay-1.0.0-1.noarch.rpm  # Change filename if needed
 rm -rf ~/rpmbuild
@@ -378,15 +378,15 @@ sudo apt-get remove gophersay
 rpm/
 └─ rpmbuild/
    ├─ SPECS/
-   │  └─ gophersay.spec
+   │  └─ gophersay-tar.spec
    └─ SOURCES/
       └─ gophersay-1.0.0.tar.xz
 ```
 
 - Create directories: `rpm/rpmbuild/SPECS`
-- In `SPECS/` create file: `gophersay.spec`
+- In `SPECS/` create file: `gophersay-tar.spec`
 
-| **`rpm/rpmbuild/SPECS/gophersay.spec`** :
+| **`rpm/rpmbuild/SPECS/gophersay-tar.spec`** :
 
 ```
 Name:           gophersay-tar
@@ -396,11 +396,11 @@ Summary:        The talking gopher
 
 License:        GPL
 URL:            https://github.com/JesseSteele/gophersay-tar
-Source0:        gophersay.tar.xz
+Source0:        gophersay-1.0.0.tar.xz
 
 BuildArch:      noarch
 BuildRequires:  go
-Requires:       go
+Requires:       bash
 
 %description
 Gopher talkback written in Go for Linux
@@ -419,25 +419,24 @@ install -D -m 0755 gophersay %{buildroot}/usr/bin/gophersay
 /usr/bin/gophersay
 
 %changelog
--------------------------------------------------------------------
-Thu Jan 01 00:00:00 UTC 1970 codes@jessesteele.com
+* Thu Jan 01 1970 Jesse Steele <codes@jessesteele.com> - 1.0.0-1
 - Something started, probably with v1.0.0-1
 ```
 
-- Install the `rpm-build` and `rpmdevtools` packages
+- Install the `rpm-build`, `rpmdevtools` & `go` packages
 
 | **RedHat/CentOS** :$
 
 ```console
 sudo dnf update
-sudo dnf install rpm-build rpmdevtools
+sudo dnf install rpm-build rpmdevtools go
 ```
 
 | **OpenSUSE** :$
 
 ```console
 sudo zypper update
-sudo zypper install rpm-build rpmdevtools
+sudo zypper install rpm-build rpmdevtools go
 ```
 
 - Build package:
@@ -448,7 +447,7 @@ sudo zypper install rpm-build rpmdevtools
 
 ```console
 cp -r rpmbuild ~/
-rpmbuild -ba ~/rpmbuild/SPECS/gophersay.spec                     # Create the .rpm package
+rpmbuild -ba ~/rpmbuild/SPECS/gophersay-tar.spec                     # Create the .rpm package
 ls ~/rpmbuild/RPMS/noarch/                                        # Check the .rpm filename
 sudo rpm -i ~/rpmbuild/RPMS/noarch/gophersay-1.0.0-1.noarch.rpm  # Install the package (filename may be different)
 ```
@@ -459,9 +458,7 @@ sudo rpm -i ~/rpmbuild/RPMS/noarch/gophersay-1.0.0-1.noarch.rpm  # Install the p
     - This file might actually have a different name, but should be in the same directory (`~/rpmbuild/RPMS/noarch/`)
   - `noarch` means it works on any architecture
     - This part of the filename was set in the `.spec` file with `BuildArch: noarch`
-  - The `%changelog` is for OpenSUSE's `zypper`
-    - RedHat/CentOS may want the date line like this:
-      - `* Thu Jan 01 1970 Jesse Steele <codes@jessesteele.com> - 1.0.0-1`
+  - If you get `changelog` or `bad date` error, then consider yourself normal
 
 | **Remove RedHat/CentOS package** :$ (optional)
 
