@@ -68,7 +68,7 @@ rm -rf ~/rpmbuild
 Instructions explain each in detail to create these packages from scratch...
 
 ### Preparation
-- We use the namespace `gophersay-tar` for all package, but still use the command as `gophersay`
+- We use the namespace `gophersay-tar` for the package, but still use the command as `gophersay`
 - These installers use a `.tar.xz` tarball for the installation
 
 1. Create the tarball
@@ -142,7 +142,9 @@ url="https://github.com/JesseSteele/gophersay-tar"
 arch=('x86_64')  # Go is newer and may not work on older systems, so not 'any'
 license=('GPL')
 depends=('go')  # Depends on the 'go' package to build the binary
-replaces=('gophersay' 'gophersay-git')
+provides=('gophersay')
+replaces=('gophersay' 'gophersay-bin' 'gophersay-git')
+conflicts=('gophersay' 'gophersay-bin' 'gophersay-git')
 
 # Custom variable "should" start with _
 # Not necessary, but may keep code clean (can remove this, then $_cmdname replace with 'gophersay' everywhere)
@@ -199,21 +201,22 @@ sudo pacman -U gophersay-tar-1.0.0-1-x86_64.pkg.tar.zst
 sudo pacman -R gophersay-tar
 ```
 
-### II. Debian Package (`gophersay.deb`)
+### II. Debian Package (`gophersay-tar.deb`)
 *Debian "**maintainer**" build directory structure:*
 
 | **`deb/`** :
 
 ```
 deb/
-├─ debian/
-│  ├─ compat
-│  ├─ control
-│  ├─ copyright
-│  ├─ changelog
-│  ├─ install
-│  └─ rules
-└─ gophersay-tar-1.0.0.tar.xz
+└─ build/
+   ├─ debian/
+   │  ├─ compat
+   │  ├─ control
+   │  ├─ copyright
+   │  ├─ changelog
+   │  ├─ install
+   │  └─ rules
+   └─ gophersay-tar-1.0.0.tar.xz
 ```
 
 #### Create Mainainer Package Director Structure
@@ -236,7 +239,10 @@ Package: gophersay-tar
 #Version: 1.0.0 # No! Inherited from `debian/changelog`
 Architecture: all
 Depends: bash (>= 4.0)
-Description: Gopher talkback written in Go for Linux
+Replaces: gophersay, gophersay-bin, gophersay-git
+Conflicts: gophersay, gophersay-bin, gophersay-git
+Provides: gophersay
+Description: Gopher talkback written in Go for Linux (tarball source)
 ```
 
 - In `debian/` create file: `compat`
@@ -374,7 +380,7 @@ sudo dpkg -i gophersay-tar.deb  # Install the package
 | **Remove Debian package** :$ (optional)
 
 ```console
-sudo apt-get remove gophersay
+sudo apt-get remove gophersay-tar
 ```
 
 ### III. RPM Package (`gophersay-tar-1.0.0-1.noarch.rpm`)
@@ -409,9 +415,12 @@ Source0:        gophersay-tar-1.0.0.tar.xz
 BuildArch:      noarch
 BuildRequires:  go
 Requires:       bash
+Obsoletes:      gophersay gophersay-bin gophersay-git
+Conflicts:      gophersay gophersay-bin gophersay-git
+Provides:       gophersay
 
 %description
-Gopher talkback written in Go for Linux
+Gopher talkback written in Go for Linux (tarball source)
 
 %prep
 %setup -q

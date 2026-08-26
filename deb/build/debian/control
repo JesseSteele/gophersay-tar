@@ -10,4 +10,7 @@ Package: gophersay-tar
 #Version: 1.0.0 # No! Inherited from `debian/changelog`
 Architecture: all
 Depends: bash (>= 4.0)
-Description: Gopher talkback written in Go for Linux
+Replaces: gophersay, gophersay-bin, gophersay-git
+Conflicts: gophersay, gophersay-bin, gophersay-git
+Provides: gophersay
+Description: Gopher talkback written in Go for Linux (tarball source)
